@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKI Signature and Verification Flowchart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .flowchart {
+            text-align: center;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .description {
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PKI Signature and Verification Flowchart</h1>
+        
+        <div class="description">
+            <p>This flowchart illustrates the complete process of PKI (Public Key Infrastructure) signature creation and verification, showing both the signing process and the verification process with clear visual separation and appropriate symbols.</p>
+        </div>
+        
+        <div class="flowchart">
+            <img src="pki_flowchart.png" alt="PKI Signature and Verification Flowchart" />
+        </div>
+        
+        <div class="description">
+            <h2>Process Summary</h2>
+            
+            <h3>PKI Signing Process:</h3>
+            <ol>
+                <li><strong>Input Data:</strong> Original data that needs to be signed</li>
+                <li><strong>Hashing:</strong> Apply a hash algorithm to the data, producing a hash value</li>
+                <li><strong>Private Key Usage:</strong> Use the signer's private key to encrypt the hash value, generating a digital signature</li>
+                <li><strong>Output:</strong> Send the original data and the digital signature to the recipient</li>
+            </ol>
+            
+            <h3>PKI Verification Process:</h3>
+            <ol>
+                <li><strong>Input Data:</strong> Receive the original data and the digital signature</li>
+                <li><strong>Hashing:</strong> Apply the same hash algorithm to the received data, producing a hash value</li>
+                <li><strong>Public Key Usage:</strong> Use the signer's public key to decrypt the digital signature, retrieving the hash value</li>
+                <li><strong>Comparison:</strong> Compare the decrypted hash value with the recalculated hash value</li>
+                <ul>
+                    <li>If they match, the data is authentic and untampered</li>
+                    <li>If they do not match, the data may have been tampered with or the signature is invalid</li>
+                </ul>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+digraph "PKI_Signature_Verification" {
+    // Graph attributes
+    rankdir=TB;
+    node [shape=box, style=filled, fontname="Arial", fontsize=10];
+    edge [fontname="Arial", fontsize=9];
+    
+    // Title
+    title [shape=plaintext, label=<<B><FONT POINT-SIZE="16">PKI Signature and Verification Flowchart</FONT></B>>, fontsize=16];
+    
+    // Subgraph for PKI Signing Process
+    subgraph cluster_signing {
+        label=<<B>PKI Signing Process</B>>;
+        style=filled;
+        fillcolor=lightblue;
+        
+        // Signing process nodes
+        input_data [label="Original Data\n(Input)", fillcolor=lightgreen];
+        hash_data [label="Apply Hash Algorithm\n(e.g., SHA-256)", fillcolor=yellow, shape=ellipse];
+        hash_value1 [label="Hash Value", fillcolor=lightyellow];
+        encrypt_hash [label="Encrypt Hash with\nPrivate Key", fillcolor=orange, shape=ellipse];
+        digital_signature [label="Digital Signature", fillcolor=lightcoral];
+        output_package [label="Send Original Data +\nDigital Signature", fillcolor=lightgreen];
+        
+        // Signing process flow
+        input_data -> hash_data;
+        hash_data -> hash_value1;
+        hash_value1 -> encrypt_hash;
+        encrypt_hash -> digital_signature;
+        {input_data, digital_signature} -> output_package;
+    }
+    
+    // Subgraph for PKI Verification Process
+    subgraph cluster_verification {
+        label=<<B>PKI Verification Process</B>>;
+        style=filled;
+        fillcolor=lightcyan;
+        
+        // Verification process nodes
+        receive_data [label="Receive Original Data +\nDigital Signature", fillcolor=lightgreen];
+        split_data [label="", shape=point, width=0.1];
+        original_data_copy [label="Original Data", fillcolor=lightgreen];
+        signature_copy [label="Digital Signature", fillcolor=lightcoral];
+        
+        hash_received [label="Apply Same Hash Algorithm\n(e.g., SHA-256)", fillcolor=yellow, shape=ellipse];
+        hash_value2 [label="Recalculated\nHash Value", fillcolor=lightyellow];
+        
+        decrypt_signature [label="Decrypt Signature with\nPublic Key", fillcolor=orange, shape=ellipse];
+        decrypted_hash [label="Decrypted\nHash Value", fillcolor=lightyellow];
+        
+        compare_hashes [label="Compare Hash Values", fillcolor=pink, shape=diamond];
+        
+        // Results
+        authentic [label="Data is Authentic\nand Untampered", fillcolor=lightgreen, shape=ellipse];
+        invalid [label="Data may be Tampered\nor Signature Invalid", fillcolor=red, shape=ellipse];
+        
+        // Verification process flow
+        receive_data -> split_data;
+        split_data -> original_data_copy;
+        split_data -> signature_copy;
+        
+        original_data_copy -> hash_received;
+        hash_received -> hash_value2;
+        
+        signature_copy -> decrypt_signature;
+        decrypt_signature -> decrypted_hash;
+        
+        {hash_value2, decrypted_hash} -> compare_hashes;
+        
+        compare_hashes -> authentic [label="Match", color=green, fontcolor=green];
+        compare_hashes -> invalid [label="No Match", color=red, fontcolor=red];
+    }
+    
+    // Connect signing to verification
+    output_package -> receive_data [style=dashed, label="Transmission", color=blue];
+    
+    // Position title at top
+    title -> input_data [style=invis];
+    
+    // Legend
+    subgraph cluster_legend {
+        label="Legend";
+        style=filled;
+        fillcolor=white;
+        
+        legend_process [label="Process", fillcolor=yellow, shape=ellipse];
+        legend_data [label="Data/Input/Output", fillcolor=lightgreen];
+        legend_decision [label="Decision", fillcolor=pink, shape=diamond];
+        legend_result [label="Result", fillcolor=lightgreen, shape=ellipse];
+        
+        legend_process -> legend_data [style=invis];
+        legend_data -> legend_decision [style=invis];
+        legend_decision -> legend_result [style=invis];
+    }
+}
